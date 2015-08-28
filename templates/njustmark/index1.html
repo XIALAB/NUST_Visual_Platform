@@ -1,0 +1,397 @@
+﻿
+<!--
+	作者：451010444@qq.com
+	时间：2015-01-28~
+	描述：标记系统
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>南京理工大学Saom项目组-辅助标注系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load staticfiles %}
+
+   <script type="text/javascript" src="http://njustmark-filesave.stor.sinaapp.com/jquery-1.11.2.js"></script>
+    <script type="text/javascript" src="http://njustmark-filesave.stor.sinaapp.com/bootstrap.min.js"></script>
+    <link href="http://njustmark-filesave.stor.sinaapp.com/bootstrap1.css" rel="stylesheet">
+
+
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="#">辅助标记系统</a>
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li class="active"><a href="/">主页</a></li>
+                    <li><a target="_blank" href="#">留言板</a></li>
+
+
+                    <li class="divider-vertical"></li>
+
+
+                </ul>
+                <ul class="nav pull-right">
+                    <li class=""></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="span12">
+
+    <div class="row">
+
+        <div class="span2" ><pre><a id="doc_id">DOC_ID：{{ DOC_ID }}</a>  </pre></div>
+        <div class="span2" ><pre><a id="review_ID">REVIEW_ID：{{ REVIEW_ID }}</a>   </pre></div>
+
+        <div class="span12">
+            <div class="modal" style="position: relative; width: 100%; top: auto; left: auto; margin: 0 auto; margin-bottom: 30px; z-index: 1">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="span4">
+<pre>
+<strong>更新日志：</strong>
+2/18 --1,已经初步解决重复词位置的问题,请严格按照语句内词的顺序标注,否则重复词位置将会出错,年后优化.
+       2,修复生成XLS文件内的格式,与正确答案进一步统一.
+       3,去除部分提示框,简化流程.
+</pre>
+
+
+
+<pre>
+<strong>提示：</strong>
+1，如第一个REVIEW中的感觉(F),很(ADV),好(ADJ)就构成一个单元，标记后选定极性和标志后进行单元保存，然后寻找该REVIEW中剩下的单元，若无其他单元，则进入下一条。
+2，在保存本次标注结果的同时会自动下载，请注意不要屏蔽弹出窗口。
+3，REMARK请单独作为一个单元。
+已知BUG：
+暂无更多报告.
+更多BUG请反馈给 Air.key@hotmail.com （使用下方联系我将打开默认邮件处理软件）
+
+
+</pre>
+
+
+                        </div>
+
+                        <div class="span7">
+                        	  {% if update_success %}
+
+                           	 <h2 class="text-info">文本：</h2>
+                             <br>
+                              <div id="text-area">
+				{% autoescape off %}
+                              {{ text }}
+				{% endautoescape %}
+                              </div>
+
+                             <br>
+                                  <div id="radio-filed">
+                                  <form>
+                                      <input class="mark" type="radio" name="mark" style="width:20px;height:20px" value="Feature"/>Feature
+                                      <input class="mark" type="radio" name="mark" style="width:20px;height:20px" value="ADV"/>ADV
+                                      <input class="mark" type="radio" name="mark" style="width:20px;height:20px" value="ADJ"/>ADJ
+				      <br>
+				      
+                                      <input class="mark" type="radio" name="mark" style="width:20px;height:20px" value="negation"/>negation
+                                      <input class="mark" type="radio" name="mark" style="width:20px;height:20px" value="contrast"/>contrast
+                                      <input class="mark" type="radio" name="mark" style="width:20px;height:20px" value="transition"/>transition
+                                      <br>
+                                      <input class="mark" type="radio" name="mark" style="width:20px;height:20px" value="virtual"/>virtual
+                                      <input class="mark" type="radio" name="mark" style="width:20px;height:20px" value="question"/>question
+                                      <br>
+				      <input class="mark" type="radio" name="mark" style="width:20px;height:20px" value="remarks"/>remarks
+                                      <br>
+                                      <hr>
+									   极性
+                                      <select  id="polarity">
+                                      	<option value="">无</option>
+                                      	<option value="0">0</option>
+                                      	<option id="op1" selected="selected" value="1">1</option>
+                                      </select>
+                                                                           标志
+                                      <select id="flag">
+                                       	<option value="">无</option>
+                                      	<option id="op2" selected="selected" value="0">0</option>
+                                      	<option value="1">1</option>
+                                      </select>
+                                  </form>
+                                  </div>
+                                  
+                                  <div id="unit-filed">
+                                  	<div id="unit-text"></div>
+                                  </div>
+                                  <div id="btn-filed">
+                                  	  <button class="btn" id="unitBack">撤销上一步</button>
+                                      <button class="btn" id="unitExce">单元完成</button>
+                                      <button class="btn" id="save">保存当前标记结果</button>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                      <button class="btn" id="next-btn">下一条</button>
+                                  </div>
+
+
+                              {% else %}
+			      <br>
+			      <br>
+                              <strong><h1>欢迎使用辅助标记系统</h1></strong>
+                              
+                              <br>
+                              <br>
+                               <form enctype="multipart/form-data" method="POST" action="/upload/">
+                                <input  type="file" name="textfile"  />
+                                   <br>
+                                   <input class="input-append" type="submit" value="上传" />
+                                </form>
+
+
+                               {% endif %}
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <div class="modal" style="position: relative; width: 100%; top: auto; left: auto; margin: 0 auto; margin-bottom: 30px; z-index: 1">
+                <div class="modal-body">
+
+                    <p>Copyright ? 2014-2015 <a href="/">南京理工大学</a> | <a href="mailto:Air.key@hotmail.com?subject="BUG反馈"">联系我</a></p>
+                    <p>Powered by Django</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script>
+
+//var num = 0;
+
+function GetSelection () {
+	
+	if (document.selection) {
+		text=document.selection.createRange().text;
+		
+	} else{
+		text=document.getSelection();
+	}
+	return text.toString();
+}
+
+
+function GetPostion(){
+	var slt=GetSelection();
+	//unit_txt_id="a"+num.toString();
+	var original = document.getElementById("text-area").innerText;
+	var pos = new Array()
+	pos[0]=original.indexOf(slt,from_index);
+	pos[1]=original.indexOf(slt,from_index)+slt.length;
+	return pos;
+}
+
+function getSelectedValue(name){  
+	var obj=document.getElementById(name);  
+	return obj.value;     
+}  
+var from_index = 0 ;
+var count = 0
+var unit_txt = "";
+var txt =new Array();
+var unit_mark = "";
+var mark =new Array();
+var Pos = new Array();
+var pos_start =new Array();
+var pos_end =new Array();
+
+$(".mark").click(function(){
+
+	var chk = 0;
+	var radioObjs = document.getElementsByClassName("mark");
+
+	for (var i=0;i<radioObjs.length;i++) {
+		if (radioObjs[i].checked) {
+			chk = i;
+			break;
+		}
+	}
+	unit_txt = GetSelection();
+	Pos=GetPostion();
+	from_index = Pos[1] - 1;
+	txt[count] = unit_txt;
+	unit_txt = "标记文本:"+"<strong>"+unit_txt+"</strong>"+"<br>";
+	mark[count] = radioObjs[chk].value.toString();
+	unit_mark = "属性:"+"<strong>"+radioObjs[chk].value.toString()+"</strong>"+"&nbsp;&nbsp&nbsp;&nbsp";
+	pos_start[count] = Pos[0].toString();
+	pos_end[count] = Pos[1].toString();
+	unit_pos = "位置:"+"<strong>"+Pos[0].toString()+"_"+Pos[1].toString()+"</strong>";
+	count+=1;
+	var unit= unit_txt+unit_mark+unit_pos;
+	unit = "<pre>"+unit+"</pre>"
+	document.getElementById("unit-text").innerHTML = document.getElementById("unit-text").innerHTML+unit;
+		
+
+	//num=num+1;
+
+})
+
+
+</script>
+
+<script type="text/javascript">
+var c = 0;
+ $("#next-btn").click(function(){
+    $.get("/nexttext/",function(data,status){
+      //alert(data);
+      from_index = 0;
+      document.getElementById("text-area").innerHTML ="<h3>"+ data+"</h3>";
+      document.getElementById("unit-text").innerHTML = null;
+      c=c+1;
+      document.getElementById("review_ID").innerHTML = "REVIEW_ID：" +c
+      document.getElementById("op1").selected ="selected";
+      document.getElementById("op2").selected ="selected";
+     // num=0;
+    });
+  });
+
+
+</script>
+
+<script type="text/javascript">
+	$("#unitBack").click(function(){
+		var allpre = document.getElementsByTagName("pre");
+		if(allpre.length>1){
+			var lastpre = allpre.item(allpre.length-1);
+			var field =  document.getElementById("unit-text");
+			field.removeChild(lastpre);
+			count=count-1;
+		}
+	})
+	
+</script>
+
+<script type="text/javascript">
+	$("#unitExce").click(function(){
+		
+		var etxt="";
+		var emark="";
+		//准备传入后台
+		//处理txt
+		for (var i=0;i<count;i++) {
+			if (i==count-1) {
+				etxt = etxt+pos_start[i]+"_"+pos_end[i]+"-"+txt[i];
+				break;
+			}
+			etxt = etxt+pos_start[i]+"_"+pos_end[i]+"-"+txt[i]+',';
+		}
+		//处理mark
+		for (var j=0;j<count;j++) {
+			if (j==count-1) {
+				emark = emark+mark[j];
+				break;
+			}
+			emark = emark+mark[j]+',';
+		}
+		
+		emark = emark +",polarity,flag";
+		
+		if (getSelectedValue("polarity")==1) {
+			etxt = etxt + ",1"
+		} else{
+			if (getSelectedValue("polarity")==0) {
+				etxt = etxt + ",0"
+			} else{
+				
+			}
+		}
+		
+		if (getSelectedValue("flag")==1) {
+			etxt = etxt + ",1"
+		} else{
+			if (getSelectedValue("flag")==0) {
+				etxt = etxt + ",0"
+			} else{
+				
+			}
+		}
+		
+		
+
+		var clean = ""
+	//	alert(etxt);
+	//	alert(emark);
+	//	alert(epos_start);
+	//	alert(epos_end);
+		$.post("/ReExce/",{"text":etxt,"mark":emark},function(data){
+			//alert(data);
+			if (true) {
+				document.getElementById("unit-text").innerHTML = null;
+				etxt = clean;
+				emark = clean;
+				txt= [];
+				mark=[];
+				pos_start=[];
+				pos_end =[];
+				count = 0;
+
+				document.getElementById("polarity").selectedIndex= 2;
+				document.getElementById("flag").selectedIndex= 1;
+			} else{
+				
+			}
+		})
+		
+	})
+	
+	
+</script>
+<script type="text/javascript">
+	$("#save").click(function(){
+		$.get("/save/",{},function(data){
+				//alert(data)
+				var a
+				a =window.open(data,"_blank", "width=0, height=0,status=0"); 
+				a.document.execCommand("SaveAs",true); 
+				
+				
+		});
+	})
+</script>
+
+<script>
+var browser = navigator.userAgent;
+
+if(browser!="Chrome"){
+	alert("请使用chrome浏览器获得更好的浏览效果！")
+}
+
+
+</script>
+</body>
+</html>

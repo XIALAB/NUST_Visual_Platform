@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>南京理工大学Saom项目组-辅助标注系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load staticfiles %}
+
+    <script type="text/javascript" src="http://njustmark-filesave.stor.sinaapp.com/jquery-1.11.2.js"></script>
+	<script type="text/javascript" src="http://njustmark-filesave.stor.sinaapp.com/bootstrap.min.js"></script>
+    <link href="http://njustmark-filesave.stor.sinaapp.com/bootstrap1.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="#">辅助标记系统</a>
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li class="active"><a href="http://1.njustmark.sinaapp.com/">主页</a></li>
+                    <li><a target="_blank" href="#">留言板</a></li>
+
+
+                    <li class="divider-vertical"></li>
+
+
+                </ul>
+                <ul class="nav pull-right">
+                    <li class=""></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="span12">
+
+    <div class="row">
+
+        <div class="span2"><pre><a >DOC_ID：{{ DOC_ID }}</a>  </pre></div>
+        <div class="span2"><pre><a >REVIEW_ID：{{ REVIEW_ID }}</a>   </pre></div>
+
+        <div class="span12">
+            <div class="modal" style="position: relative; width: 100%; top: auto; left: auto; margin: 0 auto; margin-bottom: 30px; z-index: 1">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="span4">
+<pre>
+    姑且当作更新日志：<br>  1/22 已经实现读取鼠标选中内容，添加标注工作所需要的按钮
+</pre>
+
+
+
+<pre>
+<strong>已标记条数：</strong>
+<a target="_blank" href="">{{ marked_number }}</a>
+
+
+</pre>
+
+<pre>
+<strong>剩余条数：</strong>
+<a target="_blank" href="">{{ remaining_number }}</a>
+
+</pre>
+                        </div>
+
+                        <div class="span7">
+                        	  {% if update_success %}
+
+                           	 <h3 class="text-info">文本：</h3>
+                             <br>
+                              <div id="text-area">
+                              {{ text }}
+                              </div>
+
+                             <br>
+                             <div id="radio-filed">
+                                  <form>
+                                      <input type="radio" name="mark" value="Feature"/>Feature
+                                      <input type="radio" name="mark" value="ADV"/>ADV
+                                      <input type="radio" name="mark" value="ADJ"/>ADJ
+                                      <input type="radio" name="mark" value="negation"/>negation
+                                      <input type="radio" name="mark" value="contrast"/>contrast
+                                      <input type="radio" name="mark" value="transition"/>transition
+                                      <br>
+                                      <input type="radio" name="mark" value="virtual"/>virtual
+                                      <input type="radio" name="mark" value="question"/>question
+                                      <input type="radio" name="mark" value="remarks"/>remarks
+                                      <input type="radio" name="mark" value="polarity"/>polarity
+                                      <input type="radio" name="mark" value="flag"/>flag
+                                  </form>
+                                  </div>
+                            
+                                  <div id="btn-filed">
+                                      <button class="btn" id="">单元完成</button>
+                                      <button class="btn" id="">保存当前标记结果</button>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                      <button class="btn" id="next-btn">下一条</button>
+                                  </div>
+
+                              {% else %}
+                              <strong><h1>Welcome</h1></strong>
+                              <h2>欢迎使用辅助标记系统</h2>
+                              <br>
+                              <br>
+                               <form enctype="multipart/form-data" method="POST" action="/upload/">
+                                <input  type="file" name="textfile"  />
+                                   <br>
+                                   <input class="input-append" type="submit" value="上传" />
+                                </form>
+
+
+                               {% endif %}
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <div class="modal" style="position: relative; width: 100%; top: auto; left: auto; margin: 0 auto; margin-bottom: 30px; z-index: 1">
+                <div class="modal-body">
+
+                    <p>Copyright ? 2014-2015 <a href="/">南京理工大学</a> | <a target="_blank" href="mailto:Air.key@hotmail.com">联系我</a></p>
+                    <p>Powered by Django</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+   $(document).ready(function(){
+  $("#next-btn").click(function(){
+    $.get("/nexttext/",function(data,status){
+      document.getElementById("text-area").innerHTML = data
+    });
+  });
+});
+
+</script>
+    
+    
+<script>
+
+    function getSelectText() {
+        var text = "";
+        if (document.selection) {
+            text = document.selection.createRange().text;
+        }else{
+            text = document.getSelection();
+        }
+        return text.toString();
+    }
+
+    $("#text-area").mouseup(function(){
+        var crtxt = getSelectText();
+        if (crtxt){
+            alert(crtxt)
+        }
+
+    });
+
+
+
+</script>
+
+</body>
+</html>

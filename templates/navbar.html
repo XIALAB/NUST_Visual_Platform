@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block navbar_css %}
+<style>
+    html {
+        height: 100%;
+    }
+    body {
+        min-height: 100%;
+        position: relative;
+        padding-bottom: 74px;
+    }
+    /* -----for navbar----- */
+    .navbar {
+        background: #FFF8DC;
+    }
+    #site_navbar {
+        margin-top: 80px;
+    }
+    /* -----for footer----- */
+    #site_footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+        height: 74px;
+        color: #999;
+    }
+    #site_footer .container {
+        padding-bottom: 10px;
+    }
+    #site_footer .container .footer_text {
+        padding-top: 18px;
+        color: black;
+        font-size: 15px;
+    }
+    #site_footer p {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 15px;
+    }
+</style>
+{% endblock navbar_css %}
+{% block navbar %}
+<div id="site_navbar">
+<div class="navbar navbar-fixed-top navbar-default" role="navigation">
+<div class="container">
+    <div class="navbar-collapse collapse navbar-left" style="margin-top: 5px;">
+            <ul class="nav nav-pills">
+                <li class="active"><a href="/">首页</a></li>
+                <li><a href="/wangyi/">网易新闻推荐</a></li>
+                <li><a href="/njustmark/">辅助标记系统</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+{% endblock navbar %}
+{% block footer %}
+<!-- footer start -->
+<div id="site_footer">
+    <div class="container">
+        <div class="footer_text">
+            <small class="pull-right">南京理工大学自然语言处理展示平台</small>
+            <br>
+            <p><small class="pull-right">©版权所有 2014-{% now "Y" %},XiaLAB开发组，保留一切权利</small></p>
+        </div>
+    </div>
+</div>
+<!-- footer end -->
+{% endblock footer%}

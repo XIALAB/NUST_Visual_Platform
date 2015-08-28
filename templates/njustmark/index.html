@@ -1,0 +1,492 @@
+﻿
+<!--
+	作者：451010444@qq.com
+	时间：2015-01-28~
+	描述：标记系统
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>南京理工大学Saom项目组-辅助标注系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load staticfiles %}
+
+   <script type="text/javascript" src="http://njustmark-filesave.stor.sinaapp.com/jquery-1.11.2.js"></script>
+    <script type="text/javascript" src="http://njustmark-filesave.stor.sinaapp.com/bootstrap.min.js"></script>
+    <link href="http://njustmark-filesave.stor.sinaapp.com/bootstrap1.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="#">辅助标记系统</a>
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li class="active"><a href="">主页</a></li>
+                    <li><a target="_blank" href="#">留言板</a></li>
+
+
+                    <li class="divider-vertical"></li>
+
+
+                </ul>
+                <ul class="nav pull-right">
+                    <li class=""></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="span12">
+
+    <div class="row">
+
+        <div class="span2" ><pre id="doc_id"><strong>DOC_ID：</strong><div id="docid">{{ DOC_ID }}</div></pre></div>
+        <div class="span2" ><pre id="review_ID"><strong> REVIEW_ID：</strong><div id="reid">{{ REVIEW_ID }}</div></pre></div>
+        <div class="span2" ><pre><strong>已标记条数：</strong><div id="mkd_number">{{ marked_number }}</div></pre></div>
+        <div class="span2" ><pre><strong>剩余条数：</strong><div id="re_number">{{ remaining_number }}</div></pre></div>
+        <div class="span12">
+            <div class="modal" style="position: relative; width: 100%; top: auto; left: auto; margin: 0 auto; margin-bottom: 30px; z-index: 1">
+                <div class="modal-body">
+                    <div class="row">
+ {% if update_success %}
+                        <div class="span2">
+
+
+
+
+                     </div>
+                  
+<br>
+
+                        <div class="span11">
+
+                        	 
+                           	 <h4 class="text-info">文本：</h4>
+                             <br>
+                              <div id="text-area">
+                              {% autoescape off %}
+                              {{ text }}
+                              {% endautoescape %}
+                              </div>
+
+                             <br>
+                                  <div id="radio-filed">
+                                  <form>
+                                      <input class="mark" type="radio" name="mark" value="Feature"/>Feature
+                                      <input class="mark" type="radio" name="mark" value="ADV"/>ADV
+                                      <input class="mark" type="radio" name="mark" value="ADJ"/>ADJ
+                                      <input class="mark" type="radio" name="mark" value="negation"/>negation
+                                      <input class="mark" type="radio" name="mark" value="contrast"/>contrast
+                                      <input class="mark" type="radio" name="mark" value="transition"/>transition
+                                      <input class="mark" type="radio" name="mark" value="virtual"/>virtual
+                                      <input class="mark" type="radio" name="mark" value="question"/>question
+                                      <input class="mark" type="radio" name="mark" value="remarks"/>remarks
+                                      <hr>
+									   极性
+                                      <select  id="polarity">
+                                      	<option value="">无</option>
+                                      	<option value="0">0</option>
+                                      	<option id="op1" selected="selected" value="1">1</option>
+                                      </select>
+                                                                           标志
+                                      <select id="flag">
+                                       	<option value="">无</option>
+                                      	<option id="op2" selected="selected" value="0">0</option>
+                                      	<option value="1">1</option>
+                                      </select>
+                                  </form>
+                                  </div>
+                                  
+                                  <div id="unit-filed">
+                                  	<div id="unit-text"></div>
+                                  </div>
+                                  <div id="btn-filed">
+                                  	  <button class="btn" id="unitBack">（单元内）撤销上一步</button>
+                                      <button class="btn" id="unitExce">单元完成</button>
+                                      <button class="btn" id="save">保存当前标记结果</button>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                      <button class="btn" id="next-btn">下一条</button>
+                                  </div>
+   
+				
+                              {% else %}
+				<div class="span6">
+                              <strong><h1>Welcome</h1></strong>
+                              <h2>欢迎使用辅助标记系统</h2>
+			      更新日志 3/21 --- 加入单元标注结果的预览功能（回退功能不完善）;改变风格排版,添加几个实用tips;修改代码，提升稳定性，带宽延长到4月中旬
+	                         <br>     	
+				测试文件：http://njustmark-filesave.stor.sinaapp.com/cleanser_0.txt
+				<br>
+                              <br>
+                               <form enctype="multipart/form-data" method="POST" action="/njustmark/upload/">
+                                   {% csrf_token %}
+                                <input  type="file" name="textfile"  />
+                                   <br>
+                                   <input class="input-append" type="submit" value="上传" />
+                                </form>
+
+
+                               {% endif %}
+
+
+
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        </div>
+    </div>
+    
+    {% if update_success %}
+    <div class="row">
+        <div class="span12">
+            <div class="modal" style="position: relative; width: 100%; top: auto; left: auto; margin: 0 auto; margin-bottom: 30px; z-index: 1">
+                <div class="modal-body">
+                	<button class="btn-warning" onclick="Rollback()">撤销本单元标记结果</button>
+					<p class="btn-info">标记结果：</p>
+					<table border="1" class="table">
+  					<tr>
+    					<th>doc-id</th>
+    					<th>review-id</th>
+    					<th>Feature</th>
+    					<th>ADV</th>
+    					<th>ADJ</th>
+    					<th>polarity</th>
+    					<th>flag</th>
+    					<th>negation</th>
+    					<th>contrast</th>
+    					<th>transition</th>
+    					<th>virtual</th>
+    					<th>question</th>
+    					<th>remarks</th>  					
+  					</tr>
+					<tbody id="addTr">
+						</tbody>
+						
+					</table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+      {% endif %}
+    <div class="row">
+        <div class="span12">
+            <div class="modal" style="position: relative; width: 100%; top: auto; left: auto; margin: 0 auto; margin-bottom: 30px; z-index: 1">
+                <div class="modal-body">
+
+                    <p>Copyright ? 2014-2015 <a href="/">南京理工大学</a> | <a target="_blank" href="#">联系我</a></p>
+                    <p>Powered by Django</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+var c = 0;
+ $("#next-btn").click(function(){
+    $.get("/njustmark/nexttext/",function(data,status){
+      //alert(data);
+      document.getElementById("text-area").innerHTML = "<h3>"+data+"</h3>";
+      document.getElementById("unit-text").innerHTML = null;
+
+      document.getElementById("re_number").innerHTML -=1  ;
+      c=c+1;
+      document.getElementById("reid").innerHTML = c;
+      document.getElementById("mkd_number").innerHTML =c  ;
+      document.getElementById("op1").selected ="selected";
+	  document.getElementById("op2").selected ="selected"
+     // num=0;
+      document.getElementById("addTr").innerHTML="";
+    });
+  });
+
+
+</script>
+
+
+
+<script>
+
+//var num = 0;
+
+function Rollback(){
+	$.get("/njustmark/back/",{},function(data){
+		alert(data)
+		document.getElementById("addTr").innerHTML ="";
+	})
+}
+
+function GetSelection () {
+	
+	if (document.selection) {
+		text=document.selection.createRange().text;
+		
+	} else{
+		text=document.getSelection();
+	}
+	return text.toString();
+}
+
+
+function GetPostion(){
+	var slt=GetSelection();
+	//unit_txt_id="a"+num.toString();
+	var original = document.getElementById("text-area").innerText;
+	var pos = new Array()
+	pos[0]=original.indexOf(slt,from_index);
+	pos[1]=original.indexOf(slt,from_index)+slt.length;
+	return pos;
+}
+
+function getSelectedValue(name){  
+	var obj=document.getElementById(name);  
+	return obj.value;     
+}
+
+
+
+function createRow(content,position){
+	var addtion = ""
+	for (var i = 3;i<position;i++) {
+		addtion+="<td></td>";
+	}
+	addtion+="<td>";
+	addtion+=content;
+	addtion+="</td>";
+	
+	for (var j = 0;j<13-position;j++) {
+		addtion+="<td></td>";
+	}
+	addtion+="</tr>";
+	document.getElementById("addTr").innerHTML+="<tr>"+"<td>"+document.getElementById("docid").innerText+"</td>"+"<td>"+document.getElementById("reid").innerText+"</td>"+addtion;
+
+}
+
+
+function getPreview(etxt,emark,count){
+	pretxt = etxt.split(",");
+	premark = emark.split(",");
+//	alert(premark[0]);
+//	alert(premark[1]);
+//	alert(premark[2]);
+	for(var i=0;i<count;i++){
+		switch (premark[i]){
+			case "Feature":
+				//alert("Feature")
+				createRow(pretxt[i],3);
+				break;
+			case "ADV":
+				//alert("ADV")
+				createRow(pretxt[i],4);
+				break;
+			case "ADJ":
+				//alert("ADJ")
+				createRow(pretxt[i],5);
+				break;
+			case "polarity":
+				createRow(pretxt[i],6);
+				break;
+			case "flag":
+				createRow(pretxt[i],7);
+				break;
+			case "negation":
+				createRow(pretxt[i],8);
+				break;
+			case "contrast":
+				createRow(pretxt[i],9);
+				break;
+			case "transition":
+				createRow(pretxt[i],10);
+				break;
+			case "virtual":
+				createRow(pretxt[i],11);
+				break;
+			case "question":
+				createRow(pretxt[i],12);
+				break;
+			case "remarks":
+				createRow(pretxt[i],13);
+				break;
+			default:
+				alert("不明生物")
+				break;
+		}
+	}
+	
+}
+var from_index = 1;
+var count = 0
+var unit_txt = "";
+var txt =new Array();
+var unit_mark = "";
+var mark =new Array();
+var Pos = new Array();
+var pos_start =new Array();
+var pos_end =new Array();
+
+$(".mark").click(function(){
+
+	var chk = 0;
+	var radioObjs = document.getElementsByClassName("mark");
+
+	for (var i=0;i<radioObjs.length;i++) {
+		if (radioObjs[i].checked) {
+			chk = i;
+			break;
+		}
+	}
+	unit_txt = GetSelection();
+	Pos=GetPostion();
+	txt[count] = unit_txt;
+	unit_txt = "标记文本:"+"<strong>"+unit_txt+"</strong>"+"<br>";
+	mark[count] = radioObjs[chk].value.toString();
+	unit_mark = "属性:"+"<strong>"+radioObjs[chk].value.toString()+"</strong>"+"&nbsp;&nbsp&nbsp;&nbsp";
+	pos_start[count] = Pos[0].toString();
+	pos_end[count] = Pos[1].toString();
+	unit_pos = "位置:"+"<strong>"+Pos[0].toString()+"_"+Pos[1].toString()+"</strong>";
+	count+=1;
+	var unit= unit_txt+unit_mark+unit_pos;
+	unit = "<pre>"+unit+"</pre>"
+	document.getElementById("unit-text").innerHTML = document.getElementById("unit-text").innerHTML+unit;
+	
+	
+
+	//num=num+1;
+
+})
+
+
+</script>
+
+<script type="text/javascript">
+	$("#unitBack").click(function(){
+		var allpre = document.getElementsByTagName("pre");
+		if(allpre.length>1){
+			var lastpre = allpre.item(allpre.length-1);
+			var field =  document.getElementById("unit-text");
+			field.removeChild(lastpre);
+			count=count-1;
+		}
+	})
+	
+</script>
+
+<script type="text/javascript">
+	$("#unitExce").click(function(){
+		var etxt="";
+		var emark="";
+		//准备传入后台
+		//处理txt
+		for (var i=0;i<count;i++) {
+			if (i==count-1) {
+				etxt = etxt+pos_start[i]+"_"+pos_end[i]+"-"+txt[i];
+				break;
+			}
+			etxt = etxt+pos_start[i]+"_"+pos_end[i]+"-"+txt[i]+',';
+		}
+		//处理mark
+		for (var j=0;j<count;j++) {
+			if (j==count-1) {
+				emark = emark+mark[j];
+				break;
+			}
+			emark = emark+mark[j]+',';
+		}
+		
+		emark = emark +",polarity,flag";
+		
+		if (getSelectedValue("polarity")==1) {
+			etxt = etxt + ",1"
+		} else{
+			if (getSelectedValue("polarity")==0) {
+				etxt = etxt + ",0"
+			} else{
+				
+			}
+		}
+		
+		if (getSelectedValue("flag")==1) {
+			etxt = etxt + ",1"
+		} else{
+			if (getSelectedValue("flag")==0) {
+				etxt = etxt + ",0"
+			} else{
+				
+			}
+		}
+		
+		
+
+		var clean = ""
+	//	alert(etxt);
+	//	alert(emark);
+	//	alert(epos_start);
+	//	alert(epos_end);
+		$.post("/njustmark/ReExce/",{"text":etxt,"mark":emark},function(data){
+	//		//alert(data);
+			
+
+				
+				getPreview(etxt,emark,count);
+				
+				
+				document.getElementById("unit-text").innerHTML = null;
+				etxt = clean;
+				emark = clean;
+				txt= [];
+				mark=[];
+				pos_start=[];
+				pos_end =[];
+				count = 0;
+				from_index = 0;
+
+				document.getElementById("polarity").selectedIndex= 0;
+				document.getElementById("flag").selectedIndex= 0;
+				
+				
+		
+		})
+		
+	})
+	
+	
+</script>
+
+<script type="text/javascript">
+	$("#save").click(function(){
+			$.get("/njustmark/save/",{},function(data){
+		var a;
+		a = window.open(data,"_blank","width = 0,height = 0,status = 0");
+		a.document.execCommand("SaveAs");
+	
+	})
+
+	})
+</script>
+
+
+</body>
+</html>
