@@ -6,7 +6,8 @@ from .models import WangyiArticle
 
 def show(request):
     yesterday = datetime.date.today() + datetime.timedelta(days=-1)
-    toutiao = WangyiArticle.objects.filter(mtime__lt=datetime.date.today())\
+    today = datetime.date.today()
+    toutiao = WangyiArticle.objects.filter(mtime__lt=today)\
             .filter(mtime__gte=yesterday)\
             .filter(parent_id='T1348647909107')\
             .order_by('-comments_number')[:10]

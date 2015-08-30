@@ -40,6 +40,7 @@ def nexttext(request):
     ct=RIVIWE_TEXT_LIST[INDEX]
     INDEX+=1
     REVIEW_ID+=1
+    print ct
     return HttpResponse(ct)
 
 def save(request):
@@ -62,6 +63,7 @@ def save(request):
         return HttpResponse("保存失败！内存表出错，请重试。")
 
 def ReExce(request):
+    print 'reexce'
     global WORKBOOK
     global WORKSHEET
     global COL

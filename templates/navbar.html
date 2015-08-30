@@ -8,13 +8,11 @@
         min-height: 100%;
         position: relative;
         padding-bottom: 74px;
+        padding-top: 74px;
     }
     /* -----for navbar----- */
     .navbar {
         background: #FFF8DC;
-    }
-    #site_navbar {
-        margin-top: 80px;
     }
     /* -----for footer----- */
     #site_footer {
@@ -39,6 +37,14 @@
         margin-bottom: 10px;
         font-size: 15px;
     }
+    #site_navbar .container a {
+        font-size: 15px;
+        color: black;
+        background: #FFEC8B;
+    }
+    #site_navbar .container li.active a {
+        background: #FFC125;
+    }
 </style>
 {% endblock navbar_css %}
 {% block navbar %}
@@ -50,8 +56,8 @@
                 <li class="active"><a href="/">首页</a></li>
                 <li><a href="/wangyi/">网易新闻推荐</a></li>
                 <li><a href="/njustmark/">辅助标记系统</a></li>
+                <li><a href="/music/">网易云音乐</a></li>
             </ul>
-        </div>
     </div>
 </div>
 </div>

@@ -1,5 +1,5 @@
 {% extends "navbar.html" %}
-{% block title %} Poj Recommend {% endblock %}
+{% block title %} News Recommend {% endblock %}
 {% block css %}
 <style>
     div, a {
@@ -9,6 +9,9 @@
 {% endblock %}
 {% block content %}
 
+
+
+
 <div class="container">
     <h1 style="text-align: center;">网易新闻推荐</h1>
     <h2 style="text-align: center;">头条</h2>
@@ -17,6 +20,8 @@
             <tr>
                 <th>Title</th>
                 <th>Comments</th>
+                <th>mtime</th>
+                <th>ptime</th>
             </tr>
         </thead>
         {% if toutiaos %}
@@ -25,6 +30,8 @@
             <tr>
                 <td><a href="{{ article.url }}">{{ article.title }}</a></td>
                 <td><a href="{{ article.comments_url }}">{{ article.comments_number }}</td>
+                <td>{{ article.mtime }}</td>
+                <td>{{ article.ptime }}</td>
             </tr>
         {% endfor %}
         </tbody>

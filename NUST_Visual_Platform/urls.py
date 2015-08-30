@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^$', views.index, name="index"),
     url(r'^njustmark/', include('njustmark.urls', namespace="njustmark")),
     url(r'^wangyi/', include('wangyi.urls', namespace="wangyi")),
+    url(r'^music/', include('music.urls', namespace="music")),
     url(r'^admin/', include(admin.site.urls)),
 ]
