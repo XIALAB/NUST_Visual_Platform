@@ -8,5 +8,5 @@ git clone https://github.com/zozoz/NUST_Visual_Platform
 
 sudo apt-get install libmysqlclient-dev python-dev
 
-pip install -i http://mirrors.tuna.tsinghua.edu.cn/pypi/simple -r requirements.txt
+pip install -r requirements.txt
 
