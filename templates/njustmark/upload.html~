@@ -1,0 +1,16 @@
+﻿{% extends "navbar.html" %}
+{% block css %}
+<style>
+    #site_box {
+        border: solid 1px #FFF8DC;
+        box-shadow: 10px 10px #FFF8DC;
+        margin-top: 50px;
+        margin-left: 4%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+</style>
+{% endblock css%}
+{% block content %}
+
+{% endblock content %}

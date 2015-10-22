@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'njustmark',
     'wangyi',
     'music',
+    'sample',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -75,7 +76,7 @@ ROOT_URLCONF = 'NUST_Visual_Platform.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR), 'templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -126,3 +127,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
         os.getcwd() + '/static/',
 )
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.getcwd() + '/njustmark/media'
+
+

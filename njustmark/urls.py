@@ -1,6 +1,9 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 
-urlpatterns = patterns('',
+from . import views
+from .views import NewUploadView
+
+urlpatterns = [
     url(r'^$','njustmark.views.index'),
     url(r'^upload/temp','njustmark.views.download'),
     url(r'^upload/','njustmark.views.upload'),
@@ -8,4 +11,6 @@ urlpatterns = patterns('',
     url(r'^ReExce/','njustmark.views.ReExce'),
     url(r'^save/','njustmark.views.save'),
     url(r'^back/','njustmark.views.back'),
-)
+    # url(r'^newupload/', views.newupload, name='newupload'),
+    url(r'^newupload/', NewUploadView.as_view(), name='newupload'),
+]

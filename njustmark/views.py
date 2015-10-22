@@ -227,6 +227,7 @@ def upload(request):
     WORKSHEET.write(ROW, COL, "remarks")
 
     print "xls初始化成功"
+    print RIVIWE_TEXT_LIST
     t1 = "<h3>" +RIVIWE_TEXT_LIST[0]+"</h3>"
     re_number = len(RIVIWE_TEXT_LIST)
     marked_number = 0
@@ -245,5 +246,65 @@ def upload(request):
 
     return render(request,'njustmark/index.html', returnlist)
 
+from .models import Document
+from .forms import DocumentForm
+
+def newupload(request):
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            newdoc = Document(docfile=request.FILES['docfile'])
+            newdoc.save()
+            return render(request, 'njustmark/success.html')
+    else:
+        form = DocumentForm()
+
+    documents = Document.objects.all()
+    return render(request, 'njustmark/upload.html', {
+            'documents': documents,
+            'form': form,
+        })
+
+
+from django.views.generic import View
+from StringIO import StringIO
+from lxml import etree
+
+class NewUploadView(View):
+
+    REVIEW_TEXT_LIST = []
+
+    def get(self, request, *args, **kwargs):
+        form = DocumentForm()
+        documents = Document.objects.all()
+        return render(request, 'njustmark/upload.html', {
+            'documents': documents,
+            'form': form,
+        })
+
+    def post(self, request, *args, **kwargs):
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            newdoc = Document(docfile=request.FILES['docfile'])
+            newdoc.save()
+            self._handle_upload_file(request.FILES['docfile'])
+            return render(request, 'njustmark/success.html')
+        documents = Document.objects.all()
+        return render(request, 'njustmark/upload.html', {
+            'documents': documents,
+            'form': form,
+        })
+
+    def _handle_upload_file(self, docfile):
+        text = ''
+        for chunk in docfile.chunks():
+            text += chunk
+        context = etree.iterparse(StringIO(text), encoding='utf-8')
+        for action, elem in context:
+            if elem.tag == 'REVIEW_ID':
+                pass
+            elif elem.tag == 'REVIEW_TEXT':
+                self.REVIEW_TEXT_LIST.append(elem.text)
+                print elem.text
 
 

@@ -15,21 +15,21 @@ Including another URLconf
 """
 import os
 from django.conf import settings
-from django.conf.urls import patterns, include, url
-from django.contrib import admin
+from django.conf.urls import include, url
+# from django.contrib import admin
 
 from . import views
-urlpatterns = patterns('',
+urlpatterns = [
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.index, name="index"),
     url(r'^njustmark/', include('njustmark.urls', namespace="njustmark")),
     url(r'^wangyi/', include('wangyi.urls', namespace="wangyi")),
     url(r'^music/', include('music.urls', namespace="music")),
-    url(r'^admin/', include(admin.site.urls)),
-)
+    url(r'^sample/', include('sample.urls', namespace="sample")),
+]
 
 if settings.DEBUG404:
-    urlpatterns += patterns('',
+    urlpatterns += [
             (r'^static/(?P<path>.*)$', 'django.views.static.serve',
                 {'document_root': os.path.join(os.path.dirname(__file__), '../static')} ),
-            )
+    ]
