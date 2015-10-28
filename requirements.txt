@@ -1,3 +1,5 @@
 Django==1.8.3
 django-pagination==1.0.7
 MySQL-python==1.2.5
+xlwt
+uWSGI

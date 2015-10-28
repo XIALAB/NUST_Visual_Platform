@@ -25,7 +25,6 @@ urlpatterns = [
     url(r'^njustmark/', include('njustmark.urls', namespace="njustmark")),
     url(r'^wangyi/', include('wangyi.urls', namespace="wangyi")),
     url(r'^music/', include('music.urls', namespace="music")),
-    url(r'^sample/', include('sample.urls', namespace="sample")),
 ]
 
 if settings.DEBUG404:

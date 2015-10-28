@@ -251,8 +251,11 @@ from .forms import DocumentForm
 
 def newupload(request):
     if request.method == 'POST':
+        print 'I am post'
         form = DocumentForm(request.POST, request.FILES)
+        print form
         if form.is_valid():
+            print 'form is valid.'
             newdoc = Document(docfile=request.FILES['docfile'])
             newdoc.save()
             return render(request, 'njustmark/success.html')
@@ -283,8 +286,10 @@ class NewUploadView(View):
         })
 
     def post(self, request, *args, **kwargs):
+        print 'I am post!'
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
+            print 'form is valid!'
             newdoc = Document(docfile=request.FILES['docfile'])
             newdoc.save()
             self._handle_upload_file(request.FILES['docfile'])

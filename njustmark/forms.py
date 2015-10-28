@@ -10,4 +10,4 @@ class DocumentForm(forms.Form):
             label = 'Select A File!',
             help_text = 'Max 100M'
     )
-    file_type = forms.CharField(max_length=100)
+    # file_type = forms.CharField(max_length=100)
