@@ -56,6 +56,9 @@ INSTALLED_APPS = (
     'njustmark',
     'wangyi',
     'music',
+    'burst',
+    'dist',
+    'weibo',
 )
 
 MIDDLEWARE_CLASSES = (

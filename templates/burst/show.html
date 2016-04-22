@@ -1,0 +1,38 @@
+{% extends "navbar.html" %}
+{% load burst_extras %}
+{% block title %} 突发事件检测 {% endblock %}
+{% block css %}
+<style>
+    div, a {
+        color: black;
+    }
+    button {
+        width: 100px;
+    }
+    #navsp {
+        display: inline-block;
+    }
+    .font_gap {
+        border: 0px solid;
+        background-color: #FFC125;
+        margin-right: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1 style="text-align: center;"> 南京肇事宝马案件检测 </h1>
+<div style="background: #FFF8DC;">
+{% for day, word, url in burst %}
+<div style="background: #FFF8DC;">
+    <h2 style="margin-left: 50px;">{{ day }}</h2>
+    <ul class="nav nav-pills" style="margin-left: 50px;">
+    {% for item in word %}
+    <li class="font_gap">{{ item }}</li>
+    {% endfor %}
+    </ul>
+    <iframe style="margin-left: 50px; height: 300px; width: 85%;" src="{{ url }}" scrolling="yes" frameborder="0" ALLOWTRANSPARENCY="true" ></iframe>
+</div>
+{% endfor %}
+</div>
+{% endblock content %}

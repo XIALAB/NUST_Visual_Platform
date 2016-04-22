@@ -1,0 +1,135 @@
+{% extends "navbar.html" %}
+{% block title %} 404  Page {% endblock %}
+{% block css %}
+<style>
+    body {
+        background-color: #93c5e3; 
+    }
+    .WB {
+        position: relative;
+        margin-left: 30%;
+        margin-top: 10px;
+        width: 30%;
+        min-width: 350px;
+        padding-top: 16px;
+        background-color: #fff;
+    }
+    .WB_feed_detail {
+        padding: 10px 16px 10px 10px;
+    }
+
+    .WB_feed_handle {
+    }
+    .W_fl {
+        float: left;
+        display: inline;
+    }
+    .W_face_radius {
+        border-radius: 50%;
+    }
+    .WB_detail {
+        margin-left: 60px;
+    }
+    .WB_info {
+        margin-bottom: 7px;
+    }
+    .W_f14 {
+        font-size: 18px;
+        font-weight: bold;
+        color: black;
+    }
+    .WB_from {
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+    .S_txt2, .line {
+        color: #808080;
+        text-decoration: none;
+    }
+    .WB_row_line div {
+        float: left;
+        height: 38px;
+        border-top: 0.5px solid #808080;
+        width: 25%;
+    }
+    .WB_row_line .line span em {
+        margin-left: 30%;
+        margin-right: 30%;
+        text-align: center;
+    }
+    .S_txt3 {
+        border-right-width: 1px;
+        border-right-style: solid;
+        border-color: #d9d9d9;
+    }
+
+</style>
+{% endblock css %}
+
+{% block content %}
+
+{% for forward, comment, like in data%}
+<div class="WB clearfix">
+<div class="WB_feed_detail">
+    <div class="WB_face W_fl">
+        <div class="face">
+            <a class="W_face_radius" target="_blank" title="" href=""><img class="W_face_radius" title="" width="50" height="50" src="http://tp1.sinaimg.cn/5220650532/180/5701668539/1"></img></a>
+        </div>
+    </div>
+    <div class="WB_detail">
+        <div class="WB_info">
+            <a class="W_f14" target="_blank" title="好东西传送门" href="#" nick-name="好东西传送门">好东西传送门</a>
+        </div>
+        <div class="WB_from">
+            <a class="S_txt2" target="_blank" href="#" title="2016-04-14 19:03" data="1460631837000">34分钟前</a>
+            <a class="S_txt2" target="_blank" href="#" rel="nofollow">微博weibo.com</a>
+        </div>
+        <div class="WB_text W_f14">
+            "大家好，我是正文！大家好，我是正文！大家好，我是正文！大家好，我是正文！大家好，我是正文！大家好，我是正文！大家好，我是正文！大家好，我是正文！大家好，我是正文！大家好，我是正文！大家好，我是正文！大家好，我是正文！"
+        </div>
+    </div>
+</div>
+<div class="WB_feed_handle">
+    <div class="WB_row_line">
+        <div class="S_txt3">
+                <span class="line">
+                    <span>
+                        <em>情感</em>
+                        <em>正</em>
+                    </span>
+                </span>
+            </span>
+        </div>
+        <div class="S_txt3">
+                <span class="line">
+                    <span>
+                        <em>转发</em>
+                        <em>{{ forward }}</em>
+                    </span>
+                </span>
+            </span>
+        </div>
+        <div class="S_txt3">
+                <span class="line">
+                    <span>
+                        <em>评论</em>
+                        <em>{{ comment }}</em>
+                    </span>
+                </span>
+            </span>
+        </div>
+        <div class="S_txt4">
+                <span class="line">
+                    <span>
+                        <em>点赞</em>
+                        <em>{{ like }}</em>
+                    </span>
+                </span>
+            </span>
+        </div>
+    </div>
+</div>
+</div>
+{% endfor %}
+
+{% endblock %}
